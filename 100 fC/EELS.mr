@@ -1,0 +1,40 @@
+# UED experiment TU/e
+# Bas & Marieke, Pulsar Physics
+# Erwin de Jong, TU/e	
+
+# N 10000			# number of particles
+
+Qtotal  -0.1e-12	# bunch charge
+
+# initial bunch radius (@ cathode)
+Rbunch   0.05e-3	# for spherical distribution
+sigma    0.05e-3	# for gaussian distribution
+sleft    0
+sright   1
+
+sigt 30e-15		# laser pulse length
+
+Tbunch 0.0016
+
+Efact 1.2		# Efield = Efact*100kV/cm
+
+zIris 15.4e-3		# of the photogun
+Rhole 8e-3
+
+# rect solenoid 1
+zsol   50e-3
+R1sol  292e-4
+R2sol  458e-4
+L      42e-3 
+Isol   3800
+# single turn solenoid
+zsol2  700e-3
+Rsol2  20e-3
+#Isol2  1090
+
+# TM010 cavity
+zcav   600e-3
+#E0     4
+#phi    4.7
+#freq   2.998e9
+

@@ -1,0 +1,47 @@
+# GPT inputfile for UED experiment TU/e
+# Created by Bas van der Geer and Marieke de Loos, Pulsar Physics
+# Optimized by Erwin de Jong, TU/e
+
+# -- constants --
+  ns = 1e-9 ; ps = 1e-12 ; fs = 1e-15 ;
+  FWHM2Gauss = (1/2.35482) ;
+
+# -- position particles using particle sets --		
+  if (!defined(Qtotal)) Qtotal = N*qe;
+  setparticles("beam",N,me,qe,Qtotal) ;			# Declaration and definition of particles
+  setrxydist("beam","~g",0,sigma,sleft,sright) ;	# Gaussian radial distribution
+# setrxydist("beam","~u",Rbunch/2,Rbunch) ;		# Uniform radial distribution
+# setrxydist("beam","~s",0,Rbunch);			# Half-circle distribution
+  setphidist("beam","~u",0,2*pi) ;			# Uniform distribution in phi
+  settdist( "beam", "~g", 0,sigt*FWHM2Gauss,3,3) ;	# Gaussian distribution in time
+  zminmax("wcs","I", -1e-6,100) ;			# Prevents particle in -z direction
+
+# -- initial thermal emittance --
+  setGBzdist("beam", "~u", Tbunch,0 ) ;			# Emittance=0.46 um for uniform Rb=1 mm
+  setGBthetadist("beam", "~u", pi/4,pi/2 ) ;
+  setGBphidist("beam", "~u", 0,2*pi ) ;
+
+# -- external electrostatic field from Superfish --
+  map2D_E("wcs","z",0,"maps/map100kVgun10um.gdf","R","Z","Er","Ez",Efact) ;
+  forwardscatter("wcs","I","remove", 0) ;		# Particles are removed by anode
+  scatteriris("wcs","z",zIris,Rhole,1) scatter="remove" ;
+
+# --rectcoil--
+  rectcoil("wcs","z", zsol,R1sol, R2sol, L, Isol) ;
+  rectcoil("wcs","z",-zsol,R1sol, R2sol, L,-Isol) ;
+
+# -- space charge --
+# spacecharge2Dcircle() ;
+  spacecharge3Dmesh("BeamScale",1e-3,1e+3,"Cathode","Boundaries","AAAAAA","MeshBoxAccuracy",0.02) ;
+
+# -- output --
+  accuracy(5) ;
+  dtmaxt(-3*sigt*FWHM2Gauss,5*sigt*FWHM2Gauss,sigt*FWHM2Gauss/10) ;
+  
+  if (!defined(outputT)) outputT = 1;
+  if (outputT!=0) {
+    tout(1*ps,100*ps,5*ps) ;
+    tout(100*ps,4*ns,100*ps) ;
+  }
+  if (!defined(outputZ)) outputZ = 0;
+  if (outputZ!=0) screen("wcs","I",outputZ);

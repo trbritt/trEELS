@@ -1,0 +1,72 @@
+position=0.25;
+setfile("beam","inputpulse.gdf");
+if (!defined(N)) N = 0;
+#setrmacrodist("beam","u",re,0) ;
+
+#if (N!=0) setreduce("beam",N);
+
+#if (N!=0) setreduce("beam",N);
+
+# --rectcoil--
+  rectcoil("wcs","z", zsol,R1sol, R2sol, L, Isol) ;
+  rectcoil("wcs","z",-zsol,R1sol, R2sol, L,-Isol) ;
+
+# --single loop solenoid--
+  if(!defined(Isol2)) Isol2=689;
+  solenoid("wcs","z", zsol2,Rsol2,Isol2) ;
+
+# -- space charge --
+# spacecharge2Dcircle() ;
+  if (sc!=0) {
+    spacecharge3Dmesh("BeamScale",1e-3,1e+3,"Cathode","Boundaries","AAAAAA","MeshBoxAccuracy",0.02);
+}
+
+
+#--cavity----
+  lcav = 5e-3;
+  if (!defined(zcav)) zcav = 0.6;
+  if (!defined(E0)) E0 = 1.59e6;
+  sigmaE = 1.95e-3;
+  omega = 2*pi*1.5e9;
+  if (!defined(phi)) phi = -0.795;
+  TM010erf("wcs","z",zcav, E0,lcav,sigmaE,phi,omega);
+
+# -- sample --
+  if (defined(scale)) {
+    if (!defined(zsample)) zsample = 0.588;
+    EELSbugged("wcs","I","test","testSpectrum.dat",scale);  
+    scatterplate("wcs","z",zsample,1,1) scatter = "test";
+
+  }
+  if (streak!=0){
+  	if (defined(B0)) {
+   	 if (!defined(z110)) z110 = 1.6;
+   	 L110 = 17e-3;
+  	 sigmaB110 = 0.75e-3;
+   	 xE110 = 8.24e-3;
+  	 E110 = 2.72e6*B0;
+    	sigmaE110 = 0.91e-3;
+    	omega110 = 2*pi*3e9;
+    	if (!defined(phi110)) phi110 = 1.885;
+    	TM110erf("wcs","z",z110, B0,L110,sigmaB110,phi110,omega110);
+    	TE110gauss("wcs","z",z110-xE110, E110,sigmaE110,phi110,omega110);
+    	TE110gauss("wcs","z",z110+xE110, -E110,sigmaE110,phi110,omega110);
+  	}
+  }
+  if(defined(Isol3)) solenoid("wcs","z", 1.8,Rsol2,Isol3) ;
+
+# -- output --
+  accuracy(5) ;
+  screen( "wcs","I", 1.6 ) ;
+  if (!defined(outputT)) outputT = 1;
+  if (outputT!=0) {
+    #tout(9e-9);
+    tout(1.5e-9,13e-9,100e-12) ;
+    #tout(1.5e-9,3.1e-9,10e-12);
+    #tout(3.1e-9,3.5e-9,1e-12);
+    #tout(3.5e-9,13e-9,10e-12) ;
+  }
+  if (!defined(outputZ)) outputZ = 0;
+  if (outputZ!=0) screen("wcs","I",outputZ);
+
+  dtmax=0.2e-9;

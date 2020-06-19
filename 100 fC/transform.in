@@ -1,0 +1,32 @@
+# -- constants --
+  ns = 1e-9 ; ps = 1e-12 ; fs = 1e-15 ;
+  FWHM2Gauss = (1/2.35482) ;
+
+# -- import data --
+  t_i = 1.456*ns;
+  time=100*ns;
+
+  scaleX = 1/20;
+  scaleY = scaleX;
+  scaleZ = 1/74;
+
+  setfile("beam","start_ideal.gdf");  
+  settdist("beam","~u",t_i,0);
+  settransform("wcs","z",-17.58,"beam") ;
+  setscale("beam",scaleX,scaleY,scaleZ,1,1,1);
+  setmove("beam","test");
+  settransform("wcs","z",outputZ,"test") ;
+  setreduce("beam",0);
+
+# -- output --
+  accuracy(5) ;
+  dtmaxt(-3*sigt*FWHM2Gauss,5*sigt*FWHM2Gauss,sigt*FWHM2Gauss/10) ;
+  
+  if (!defined(outputT)) outputT = 0;
+  if (outputT!=0) {
+    tout(1*ps,100*ps,5*ps) ;
+    tout(100*ps,4*ns,100*ps) ;
+    tout(t_i);
+  }
+  if (!defined(outputZ)) outputZ = 0;
+  if (outputZ!=0) screen("wcs","I",outputZ);

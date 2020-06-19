@@ -1,0 +1,56 @@
+#UED_ideal.in
+#Tristan Britt
+
+# -- constants --
+  ns = 1e-9 ; ps = 1e-12 ; fs = 1e-15 ;
+  FWHM2Gauss = (1/2.35482) ;
+
+# -- position particles using particle sets --		
+  if (!defined(Qtotal)) Qtotal = N*qe;
+  setparticles("beam",N,me,qe,Qtotal) ;			# Declaration and definition of particles
+
+  translate = 0.40 ;
+  sigmaxy_lowfreq = 5.63e-4 ;
+  sigmaz_lowfreq  = 6.66e-4 ;
+
+  setellipse("beam",2.25*sigmaxy_lowfreq, 2.25*sigmaxy_lowfreq, 2.75*sigmaz_lowfreq);          # Uniformly filled ellipsoid - idealised
+  settransform("wcs","z",translate,"beam") ;
+
+  t_start = (3.1-0.8)*ns ;
+  settdist( "beam", "~u", t_start,0) ;	                 # Gaussian distribution in time
+
+# -- initial emittance --
+  emit=2.788e-8;  
+  dist=8e-4;
+  #div=1e5;
+
+  Eo = 115e3;                                           # leave "cathode" with energy 100 kV (or 0.654 eV (~Tbunch) originally)
+  #G  = 1-q*Eo/(m*c*c);                                  # corresponding gamma
+  G = 1.234 ;
+  dG = (G-1)/100;					# 1% energy spread
+  GB = sqrt(G^2-1);					# Corresponding GB
+
+  setGBxdist( "beam", "~g", 0, dist, 1,1 );
+  setGBydist( "beam", "~g", 0, dist, 1,1 );
+  setGBxemittance( "beam", emit );
+  setGByemittance( "beam", emit );
+
+  setGBzdist("beam","~u",GB,0);
+  addzdiv("beam",translate,div);
+
+
+# -- space charge --
+  spacecharge3Dmesh("BeamScale",1e-3,1e+3,"Cathode","Boundaries","AAAAAA","MeshBoxAccuracy",0.02) ;
+
+# -- output --
+  accuracy(7) ;
+  dtmaxt(-3*sigt*FWHM2Gauss,5*sigt*FWHM2Gauss,sigt*FWHM2Gauss/100) ;
+  
+  if (!defined(outputT)) outputT = 1;
+  if (outputT!=0) {
+    #tout(1*fs,1*ps,1*fs);
+    tout(1*ps,100*ps,5*ps) ;
+    tout(100*ps,4*ns,100*ps) ;
+  }
+  if (!defined(outputZ)) outputZ = 0;
+  if (outputZ!=0) screen("wcs","I",outputZ);
