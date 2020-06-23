@@ -68,3 +68,8 @@ if (!defined(N)) N = 0;
 
   dtmax=0.2e-9;
   outputvalue("div",div) ;
+  outputvalue("E0", E0) ;
+  outputvalue("phi", phi) ;
+  outputvalue("Isol2", Isol2) ;
+  outputvalue("Isol3", Isol3) ;
+  outputvalue("phi110", phi110) ;
