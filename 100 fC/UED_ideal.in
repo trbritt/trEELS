@@ -13,20 +13,24 @@
   sigmaxy_lowfreq = 5.63e-4 ;
   sigmaz_lowfreq  = 6.66e-4 ;
 
-  setellipse("beam",2.25*sigmaxy_lowfreq, 2.25*sigmaxy_lowfreq, 2.75*sigmaz_lowfreq);          # Uniformly filled ellipsoid - idealised
+  mx = 2.3; 
+  my = mx; 
+  mz = 2.25;
+
+  setellipse("beam",mx*sigmaxy_lowfreq, my*sigmaxy_lowfreq, mz*sigmaz_lowfreq);          # Uniformly filled ellipsoid - idealised
   settransform("wcs","z",translate,"beam") ;
 
   t_start = (3.1-0.8)*ns ;
   settdist( "beam", "~u", t_start,0) ;	                 # Gaussian distribution in time
 
 # -- initial emittance --
-  emit=2.788e-8;  
+  emit=4*2.788e-8;  
   dist=8e-4;
   #div=1e5;
 
   Eo = 115e3;                                           # leave "cathode" with energy 100 kV (or 0.654 eV (~Tbunch) originally)
   #G  = 1-q*Eo/(m*c*c);                                  # corresponding gamma
-  G = 1.234 ;
+  G = 1.2348 ;
   dG = (G-1)/100;					# 1% energy spread
   GB = sqrt(G^2-1);					# Corresponding GB
 

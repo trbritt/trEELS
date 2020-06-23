@@ -9,65 +9,48 @@
   if (!defined(Qtotal)) Qtotal = N*qe;
   setparticles("beam",N,me,qe,Qtotal) ;			# Declaration and definition of particles
 
-
   translate = 0.40 ;
   sigmaxy_lowfreq = 5.63e-4 ;
   sigmaz_lowfreq  = 6.66e-4 ;
 
-  setellipse("beam",2.5*sigmaxy_lowfreq, 2.5*sigmaxy_lowfreq, 3*sigmaz_lowfreq);          # Uniformly filled ellipsoid - idealised
-  settransform("wcs","z",translate,"beam") ;
+  #mx = 2.25; 
+  my = mx; 
+  #mz = 2.75;
 
-#  setzdist("beam","g",translate,sigmaz_lowfreq,1,1);
-#  setrxydist("beam","g",0,sigmaxy_lowfreq,0,1) ;	# Gaussian radial distribution
-#  setzdist("beam", "g", 0, 1e-9, 1,1);
-#  setrxydist("beam","g",0, Rbunch, 0,1); 
-  setphidist("beam","~u",0,2*pi) ;			# Uniform distribution in phi
+  setellipse("beam",mx*sigmaxy_lowfreq, my*sigmaxy_lowfreq, mz*sigmaz_lowfreq);          # Uniformly filled ellipsoid - idealised
+  settransform("wcs","z",translate,"beam") ;
 
   t_start = (3.1-0.8)*ns ;
   settdist( "beam", "~u", t_start,0) ;	                 # Gaussian distribution in time
-#  zminmax("wcs","I", -1e-6,100) ;		       	 # Prevents particle in -z direction
 
-# -- initial thermal emittance --
-#  setGBzdist("beam", "~u", Tbunch,0 ) ;		# Original initial conditions
-#  setGBthetadist("beam", "~u", pi/4,pi/2 ) ;
-#  setGBphidist("beam", "~u", 0,2*pi ) ;
-
+# -- initial emittance --
   emit=2.788e-8;  
   dist=8e-4;
-#  div=1e5;
+  #div=1e5;
 
   Eo = 115e3;                                           # leave "cathode" with energy 100 kV (or 0.654 eV (~Tbunch) originally)
   #G  = 1-q*Eo/(m*c*c);                                  # corresponding gamma
-  G = 1.234 ;
+  G = 1.2348 ;
   dG = (G-1)/100;					# 1% energy spread
   GB = sqrt(G^2-1);					# Corresponding GB
-
-  #setGBzdist("beam","u",GB,0);
-  #setGBrxydist("beam","u",0,dist);
-  #setGBphidist("beam","u",0,2*pi);
-
 
   setGBxdist( "beam", "~g", 0, dist, 1,1 );
   setGBydist( "beam", "~g", 0, dist, 1,1 );
   setGBxemittance( "beam", emit );
   setGByemittance( "beam", emit );
 
-#  setGdist("beam","u",G,0);
   setGBzdist("beam","~u",GB,0);
   addzdiv("beam",translate,div);
 
 
-# --single loop solenoid--
-  if(!defined(Isol2)) Isol2=689;
-  solenoid("wcs","z", zsol2,Rsol2,Isol2) ;
 
 #--cavity----
   lcav = 5e-3;
   if (!defined(zcav)) zcav = 0.6;
-  if (!defined(E0)) E0 = 1.59e6;
+  if (!defined(E0)) E0 = 2.9e6;
   sigmaE = 1.95e-3;
   omega = 2*pi*1.5e9;
-  if (!defined(phi)) phi = -0.795;
+  if (!defined(phi)) phi = 1.43;
   TM010erf("wcs","z",zcav, E0,lcav,sigmaE,phi,omega);
 
 # -- space charge --
@@ -85,5 +68,4 @@
   }
   if (!defined(outputZ)) outputZ = 0;
   if (outputZ!=0) screen("wcs","I",outputZ);
-  screen("wcs","I",zcav) ; 
-  screen("wcs","I",1.6) ;
+

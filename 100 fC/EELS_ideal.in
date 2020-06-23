@@ -53,7 +53,7 @@ if (!defined(N)) N = 0;
 
 # -- output --
   accuracy(5) ;
-  #screen( "wcs","I", 1.6 ) ;
+  screen( "wcs","I", 1.6 ) ;
 
   if (!defined(outputT)) outputT = 1;
   if (outputT!=0) {
@@ -64,7 +64,7 @@ if (!defined(N)) N = 0;
     #tout(3.5e-9,13e-9,10e-12) ;
   }
   if (!defined(outputZ)) outputZ = 0;
-  if (outputZ!=0) screen("wcs","I",outputZ);
+  #if (outputZ!=0) screen("wcs","I",outputZ);
 
   dtmax=0.2e-9;
   outputvalue("div",div) ;
