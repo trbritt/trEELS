@@ -1,6 +1,7 @@
 position=0.50;
 setfile("beam","inputpulse_ideal.gdf");
 if (!defined(N)) N = 0;
+#re=2.817e-15;
 #setrmacrodist("beam","u",re,0) ;
 
 #if (N!=0) setreduce("beam",N);
@@ -53,18 +54,19 @@ if (!defined(N)) N = 0;
 
 # -- output --
   accuracy(5) ;
-  screen( "wcs","I", 1.6 ) ;
+  #screen( "wcs","I", 1.6 ) ;
 
   if (!defined(outputT)) outputT = 1;
   if (outputT!=0) {
     #tout(9e-9);
-    tout(1.5e-9,13e-9,100e-12) ;
+    #tout(1.5e-9,13e-9,100e-12) ;
     #tout(1.5e-9,3.3e-9,10e-12);
     #tout(3.3e-9,3.7e-9,1e-12);
     #tout(3.5e-9,13e-9,10e-12) ;
   }
   if (!defined(outputZ)) outputZ = 0;
   if (outputZ!=0) screen("wcs","I",outputZ);
+  #screen("wcs","I",1.6,2.2,1e-3);
 
   dtmax=0.2e-9;
   outputvalue("div",div) ;

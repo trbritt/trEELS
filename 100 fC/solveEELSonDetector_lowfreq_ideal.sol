@@ -3,25 +3,24 @@ backtracking = 0 ;
 forcejacobian = 1 ;
 
 [VARIABLES]
-Isol2=650;
+Isol2=600;
 Isol2.reldelta = 0.01;
 Isol2.min=600;
 
-phi=0.645;
+phi=0.65;
 phi.reldelta = 0.01;
 phi.min = -1.5;
 phi.max = 1.5;
 
-E0 = 2.9e6;
+E0 = 2.93e6;
 E0.reldelta = 0.01;
 E0.min = 0;
 
-phi110=0.795;
-phi110.reldelta = 0.01;
-
-Isol3=921;
+Isol3=915;
 Isol3.reldelta=0.01;
 
+phi110=1.16;
+phi110.reldelta = 0.01;
 
 [CONSTRAINTS]
 
