@@ -24,7 +24,7 @@
   settdist( "beam", "~u", t_start,0) ;	                 # Gaussian distribution in time
 
 # -- initial emittance --
-  emit=4*2.788e-8;  
+  emit=2.788e-8;  
   dist=8e-4;
   #div=1e5;
 
