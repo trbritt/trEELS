@@ -54,12 +54,12 @@ if (!defined(N)) N = 0;
 
 # -- output --
   accuracy(5) ;
-  #screen( "wcs","I", 1.6 ) ;
+  screen( "wcs","I", 1.6 ) ;
 
   if (!defined(outputT)) outputT = 1;
   if (outputT!=0) {
     #tout(9e-9);
-    #tout(1.5e-9,13e-9,100e-12) ;
+    tout(1.5e-9,13e-9,100e-12) ;
     #tout(1.5e-9,3.3e-9,10e-12);
     #tout(3.3e-9,3.7e-9,1e-12);
     #tout(3.5e-9,13e-9,10e-12) ;

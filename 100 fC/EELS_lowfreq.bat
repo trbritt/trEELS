@@ -8,9 +8,11 @@ REM gdf2a -w 16 -v -o sol_lowfreq.txt sol_lowfreq.gdf
 
 
 REM *below is optimised params at 1e4 with higher effective bunch charge* phi.40 .36
-mr -o EELSwithoutSample_lowfreq.gdf EELS.mr gpt EELS_sc.in E0=2.93e6 phi=0.40 Isol2=655.28 Isol3=922.7 phi110=0.146 N=10000 B0=3e-3 sc=1 streak=1
-gdfa -o EELSwithoutSampleStds_lowfreq.gdf EELSwithoutSample_lowfreq.gdf time avgz stdx stdz avgBz avgG nemixrms nemizrms stdG
+REM mr -o EELSwithoutSample_lowfreq.gdf EELS.mr gpt EELS_sc.in E0=2.93e6 phi=0.40 Isol2=655.28 Isol3=922.7 phi110=0.146 N=10000 B0=3e-3 sc=1 streak=1
+REM gdfa -o EELSwithoutSampleStds_lowfreq.gdf EELSwithoutSample_lowfreq.gdf time avgx avgz stdx stdz avgBx avgBz stdBx stdBz avgG stdG nemixrms nemizrms 
 
 REM *below is optimised params at 1e4*
-mr -o EELSwithSample_lowfreq.gdf EELS.mr gpt EELS_sc.in E0=2.93e6 phi=0.40 Isol2=655.28 Isol3=922.7 phi110=0.146 scale=20 N=10000 B0=3e-3 outputZ=2.2 zsample=0.53 sc=1 streak=1
-gdfa -o EELSwithSampleStds_lowfreq.gdf EELSwithSample_lowfreq.gdf time avgz stdx stdz avgBz avgG nemixrms nemizrms stdG
+REM mr -o EELSwithSample_lowfreq.gdf EELS.mr gpt EELS_sc.in E0=2.93e6 phi=0.40 Isol2=655.28 Isol3=922.7 phi110=0.146 scale=20 N=10000 B0=3e-3 outputZ=2.2 zsample=0.53 sc=1 streak=1
+REM gdfa -o EELSwithSampleStds_lowfreq.gdf EELSwithSample_lowfreq.gdf time avgz stdx stdz avgBz avgG nemixrms nemizrms stdG
+
+mr -o inputbeam_streak_only.gdf EELS.mr gpt EELS_sc.in E0=2.93e6 phi=0.40 Isol2=655.28 Isol3=922.7 phi110=0.146 N=10000 B0=3e-3 sc=1 streak=1
