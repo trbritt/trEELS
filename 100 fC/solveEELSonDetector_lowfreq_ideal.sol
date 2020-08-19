@@ -30,11 +30,12 @@ avgx = 0;
 avgx.position = 2.2;
 avgx.abstol = 100e-6;
 
-stdt = 60e-15;
-stdt.position=1.6;
-stdt.abstol=10e-15;
 
 [OPTIMIZE]
 stdx = 0;
 stdx.position = 2.2;
 stdx.abstol=1e-5;
+
+stdt = 60e-15;
+stdt.position=1.6;
+stdt.abstol=10e-15;
