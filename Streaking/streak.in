@@ -1,0 +1,82 @@
+position=1.60;
+setfile("beam","inputbeam_streak_only.gdf");
+
+#setparticles("beam",N,me,qe,Qtotal) ;			# Declaration and definition of particles
+if (!defined(N)) N = 0;
+#re=2.817e-15;
+#setrmacrodist("beam","u",re,0) ;
+
+#if (N!=0) setreduce("beam",N);
+
+
+# -- initialise pulse --
+#  setellipse("beam",mx*sigmaxy_lowfreq, my*sigmaxy_lowfreq, mz*sigmaz_lowfreq);          # Uniformly filled ellipsoid - idealised
+
+  #stdxy= 9.859e-4;
+  #stdz = 1.650e-5;
+
+# -- initial emittance --
+  #emit    = 4.077e-7;  
+  #avgGBxy = 1.699e-4;
+  #stdGBxy = 4.702e-4;
+  #stdG = 4.734e-4;
+
+  emit = 1.7e-7;
+  G = 1.23436 ; 
+  stdG = 0.00164;
+  
+  GB = sqrt(G^2-1);					                                 # Corresponding GB
+  dGB= G*stdG/GB;
+
+
+# -- manually tweak each dimension --
+
+  if (defined(stdz)) setzdist( "beam", "~g", 1.60, stdz, 2, 2);
+  if (defined(stdx)){
+	setxdist( "beam", "~c", -1.28e-4/2, stdx, pi/2); 
+	setydist( "beam", "~c", -2.6861e-6, stdx, pi/2);
+	#setrxydist( "beam", "*l", 0.0021/2, 0.0021, 1, 80);
+	#setrxydist("beam","~g",0,0.0021,sleft,sright) ;	# Gaussian radial distribution
+	#setphidist( "beam" ,"~u",0,2*pi);	
+  }
+# -- space charge --
+  if (sc!=0) {
+    spacecharge3Dmesh("BeamScale",1e-3,1e+3,"Cathode","Boundaries","AAAAAA","MeshBoxAccuracy",0.02);
+}
+
+# -- streak--
+  if (streak!=0){
+  	if (defined(B0)) {
+   	 if (!defined(z110)) z110 = 1.6;
+   	 L110 = 17e-3;
+  	 sigmaB110 = 0.75e-3;
+   	 xE110 = 8.24e-3;
+  	 E110 = 2.72e6*B0;
+    	sigmaE110 = 0.91e-3;
+    	omega110 = 2*pi*3e9;
+    	if (!defined(phi110)) phi110 = 1.885;
+    	TM110erf("wcs","z",z110, B0,L110,sigmaB110,phi110,omega110);
+    	TE110gauss("wcs","z",z110-xE110, E110,sigmaE110,phi110,omega110);
+    	TE110gauss("wcs","z",z110+xE110, -E110,sigmaE110,phi110,omega110);
+  	}
+  }
+  if(defined(Isol3)) solenoid("wcs","z", 1.8,Rsol2,Isol3) ;
+
+# -- output --
+  accuracy(5) ;
+  screen( "wcs","I", 1.6 ) ;
+
+  if (!defined(outputT)) outputT = 1;
+  if (outputT!=0) {
+    tout(9.2e-9,13e-9,100e-12) ;
+  }
+  if (!defined(outputZ)) outputZ = 0;
+  if (outputZ!=0) screen("wcs","I",outputZ);
+  
+
+  dtmax=0.2e-9;
+
+  outputvalue("Isol3", Isol3) ;
+  outputvalue("phi110", phi110) ;
+  if (defined(stdz)) outputvalue("stdz",stdz) ; 
+  if (defined(stdx)) outputvalue("stdx",stdx) ; 

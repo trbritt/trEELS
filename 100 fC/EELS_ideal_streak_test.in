@@ -1,0 +1,33 @@
+position=1.60;
+setfile_scat("beam","tmp.gdf");
+
+if (streak!=0){
+  	if (defined(B0)) {
+   	 if (!defined(z110)) z110 = 1.6;
+   	 L110 = 17e-3;
+  	 sigmaB110 = 0.75e-3;
+   	 xE110 = 8.24e-3;
+  	 E110 = 2.72e6*B0;
+    	sigmaE110 = 0.91e-3;
+    	omega110 = 2*pi*3e9;
+    	if (!defined(phi110)) phi110 = 1.885;
+    	TM110erf("wcs","z",z110, B0,L110,sigmaB110,phi110,omega110);
+    	TE110gauss("wcs","z",z110-xE110, E110,sigmaE110,phi110,omega110);
+    	TE110gauss("wcs","z",z110+xE110, -E110,sigmaE110,phi110,omega110);
+  	}
+  }
+  if(defined(Isol3)) solenoid("wcs","z", 1.8,Rsol2,Isol3) ;
+
+
+# -- output --
+  accuracy(5) ;
+  if (!defined(outputZ)) outputZ = 0;
+  if (outputZ!=0) screen("wcs","I",outputZ);
+
+  dtmax=0.2e-9;
+  outputvalue("div",div) ;
+  #outputvalue("E0", E0) ;
+  #outputvalue("phi", phi) ;
+  #outputvalue("Isol2", Isol2) ;
+  outputvalue("Isol3", Isol3) ;
+  outputvalue("phi110", phi110) ;

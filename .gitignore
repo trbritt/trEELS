@@ -1,3 +1,17 @@
- *.gdf
- *.txt
-
+# ignore all binary data files
+*.gdf
+*.txt
+*.mp4
+*.py
+*.dat
+*.avi
+*.m 
+100 fC/zBz.gdt
+100 fC/.vscode/settings.json
+custom elements/EELS.c
+custom elements/EELSbugged.c
+custom elements/erfderivs.h
+custom elements/gaussderivs2.h
+custom elements/TE110gauss.c
+custom elements/TM010erf.c
+custom elements/TM110erf.c

@@ -1,0 +1,49 @@
+[OPTIONS]
+#ignoreerrors=1;
+backtracking = 0 ;
+forcejacobian = 1 ;
+#keepgoing=1;
+
+[VARIABLES]
+phi110=-0.467;
+phi110.min=-1.5;
+phi110.max=1.5;
+phi110.reldelta=0.01;
+
+#phi110.cyclic=1;
+
+Isol3=844;
+Isol3.min=800;
+#Isol3.max=1000;
+Isol3.reldelta=0.01;
+
+stdxy=9.859e-4;
+stdxy.min=8e-4;
+#stdxy.max=1.5e-3;
+stdxy.reldelta=0.01;
+
+stdz=1.650e-5;
+stdz.min = 1.3e-5;
+#stdz.max = 1.8e-5;
+stdz.reldelta=0.01;
+
+avgGBxy = 1.699e-4;
+avgGBxy.min = 1.0e-4;
+#avgGBxy.max = 2.0e-4;
+avgGBxy.reldelta=0.01;
+
+stdGBxy = 4.702e-4;
+stdGBxy.min = 4.0e-4;
+#stdGBxy.max = 5.0e-4;
+stdGBxy.reldelta=0.01;
+
+
+
+[OPTIMIZE]
+stdx = 0;
+stdx.position = 0.6;
+stdx.abstol=1e-5;
+
+avgx = 0;
+avgx.position = 0.6;
+avgx.abstol = 100e-6;

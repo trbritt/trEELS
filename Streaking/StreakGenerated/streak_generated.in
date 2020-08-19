@@ -1,0 +1,113 @@
+# streak_generated.in
+# Tristan Britt
+
+# -- constants --
+
+  	ns = 1e-9 ; ps = 1e-12 ; fs = 1e-15 ;
+  	FWHM2Gauss = (1/2.35482) ;
+
+# -- position particles using particle sets --	
+	
+  	if (!defined(Qtotal)) Qtotal = N*qe;
+  	setparticles("beam",N,me,qe,Qtotal) ;			# Declaration and definition of particles
+
+# -- initial emittance --
+
+  	# According to 'EELSwithoutSampleStds_lowfreq.gdf'
+  	 eps_x = 1.2398e-07;  # m-rad
+  	# eps_z = 9.1776e-11;  # J-s
+  	 stdz  = 3.1398e-05;  # m
+  	# stdx  = 9.9587e-04;  # m
+  	 G     = 1.2344;
+  	# stdG  = 0.0016;
+  	 avgr  = 1.313e-03;   # m
+  	 stdr  = 4.972e-04;   # m
+
+  	# Parameters that are unknown from original simualtion data are stdGBx/y zdiv xydiv and scale_x
+  	# start with values from 'ideal' simulation, tweak from there
+  	# These values are 'arbitrary' and need fine tunign via optimisation 
+
+  	# stdGBx/y --> dist = 8e-4;
+	# zdiv     --> div  = 1e5;
+  	# scale_x  --> max(x) = 1.04*max(y), so start with scale_x = 1.04
+  	# xydiv    --> xydiv = 15;
+
+		stdGBx  = 8e-4;
+		stdGBy  = stdGBx;
+		zdiv    = 2e7;
+		scale_x = 1.2; 
+		xydiv   = 15;
+
+  	# Calculate other necessary parameters
+
+		dG = (G-1)/100;					# 1% energy spread
+		GB = sqrt(G^2-1);					# Corresponding GB
+
+  	# Calcualte real space distributions
+
+		setzdist( "beam", "~g", z110, 1.2*stdz, 3, 3);
+		setrxydist( "beam", "~g", 0, scale_x*stdr, 0, 3);
+		setphidist( "beam", "~u", 0, 2*pi); 
+		setscale( "beam", scale_x, 1, 1, 1, 1, 1); 
+
+  	# Calculate phase space
+
+		#setGBxdist( "beam", "~g", 1.0074, stdGBx, 1,1 );
+		#setGBydist( "beam", "~g", 0, stdGBy, 1,1 );
+		
+		setGBrxydist( "beam", "~g", 0, stdGBx, 0, 4);
+		setGBphidist( "beam", "~u", 0, 2*pi); 
+
+		setGBzdist( "beam", "~u", GB, 0);
+		addzdiv( "beam", z110, zdiv);
+
+		addxdiv( "beam", 0, xydiv);
+		addydiv( "beam", 0, xydiv);
+
+		setGBxemittance( "beam", 1.2*eps_x);
+		setGByemittance( "beam", 1.2*eps_x);
+
+# -- space charge --
+
+  	if (sc!=0) {
+    	spacecharge3Dmesh("BeamScale", 1e-3, 1e+3, "Cathode", "Boundaries", "AAAAAA", "MeshBoxAccuracy", 0.02);
+	}
+
+# -- streak--
+
+  	if (streak!=0){
+  		if (defined(B0)) {
+   	 		if (!defined(z110)) z110 = 1.6;
+   	 		L110 = 17e-3;
+			sigmaB110 = 0.75e-3;
+			xE110 = 8.24e-3;
+			E110 = 2.72e6*B0;
+			sigmaE110 = 0.91e-3;
+			omega110 = 2*pi*3e9;
+			if (!defined(phi110)) phi110 = 1.885;
+			TM110erf("wcs","z",z110, B0,L110,sigmaB110,phi110,omega110);
+			TE110gauss("wcs","z",z110-xE110, E110,sigmaE110,phi110,omega110);
+			TE110gauss("wcs","z",z110+xE110, -E110,sigmaE110,phi110,omega110);
+  		}
+		if(defined(Isol3)) solenoid("wcs", "z", 1.8, Rsol2, Isol3) ;
+  	}
+  
+
+# -- output --
+
+	accuracy(5) ;
+	screen( "wcs", "I", 1.6 ) ;
+
+	if (!defined(outputT)) outputT = 1;
+	if (outputT!=0) {
+		tout(0, 4*ns, 100*ps) ;
+	}
+	if (!defined(outputZ)) outputZ = 0;
+	if (outputZ!=0) screen("wcs", "I", outputZ);
+	
+	dtmax=0.2e-9;
+
+	outputvalue("Isol3", Isol3) ;
+	outputvalue("phi110", phi110) ;
+	if (defined(stdz)) outputvalue("stdz", stdz) ; 
+	if (defined(stdx)) outputvalue("stdx", stdx) ; 

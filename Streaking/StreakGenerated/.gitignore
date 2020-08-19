@@ -1,0 +1,8 @@
+# ignore all binary data files
+*.gdf
+*.txt
+*.mp4
+*.py
+*.dat
+*.avi
+*.m 
