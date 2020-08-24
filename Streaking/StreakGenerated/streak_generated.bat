@@ -1,3 +1,5 @@
+gdfsolve -v -o EELS_streak_generated_opt.gdf solveEELSonDetector_generated.sol mr ../EELS.mr gpt streak_generated.in N=10000 B0=3e-3 sc=1 streak=1 outputZ=2.2
+
 mr -o EELS_streak_generated.gdf ../EELS.mr gpt streak_generated.in Isol3=922 phi110=0.592 N=10000 B0=3e-3 sc=1 streak=1 outputZ=2.2
 gdfa -o EELSStds_streak_generated.gdf EELS_streak_generated.gdf time avgx avgz stdx stdz avgBz stdBz avgBx stdBx avgG stdG nemixrms nemizrms avgy stdy avgr
 

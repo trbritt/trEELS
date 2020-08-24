@@ -21,22 +21,22 @@
   	 G     = 1.2344;
   	# stdG  = 0.0016;
   	 avgr  = 1.313e-03;   # m
-  	 stdr  = 4.972e-04;   # m
+  	# stdr  = 4.972e-04;   # m
 
-  	# Parameters that are unknown from original simualtion data are stdGBx/y zdiv xydiv and scale_x
+  	# Parameters that are unknown from original simualtion data are stdGBx/y zdiv xydiv and scalex
   	# start with values from 'ideal' simulation, tweak from there
   	# These values are 'arbitrary' and need fine tunign via optimisation 
 
   	# stdGBx/y --> dist = 8e-4;
 	# zdiv     --> div  = 1e5;
-  	# scale_x  --> max(x) = 1.04*max(y), so start with scale_x = 1.04
+  	# scalex  --> max(x) = 1.04*max(y), so start with scalex = 1.04
   	# xydiv    --> xydiv = 15;
 
-		stdGBx  = 8e-4;
+	#	stdGBx  = 8e-4;
 		stdGBy  = stdGBx;
-		zdiv    = 2e7;
-		scale_x = 1.2; 
-		xydiv   = 15;
+	#	zdiv    = 2e7;
+	#	scalex = 1.2; 
+	#	xydiv   = 15;
 
   	# Calculate other necessary parameters
 
@@ -45,10 +45,10 @@
 
   	# Calcualte real space distributions
 
-		setzdist( "beam", "~g", z110, 1.2*stdz, 3, 3);
-		setrxydist( "beam", "~g", 0, scale_x*stdr, 0, 3);
+		setzdist( "beam", "~g", z110, 1.2*stdz, 3, 3);			#1.2stdz --> stdz in optimisation
+		setrxydist( "beam", "~g", 0, stdr, 0, 3);		#scalex*stdr ---> stdr in optimisaiton
 		setphidist( "beam", "~u", 0, 2*pi); 
-		setscale( "beam", scale_x, 1, 1, 1, 1, 1); 
+		setscale( "beam", scalex, 1, 1, 1, 1, 1); 
 
   	# Calculate phase space
 
