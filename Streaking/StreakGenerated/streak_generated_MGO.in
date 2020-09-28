@@ -33,7 +33,7 @@
   	# xydiv    --> xydiv = 15;
 
 	#	stdGBx  = 8e-4;
-	#	stdGBy  = stdGBx;
+		stdGBy  = stdGBx;
 	#	zdiv    = 2e7;
 	#	scalex = 1.2; 
 	#	xydiv   = 15;
@@ -111,3 +111,8 @@
 	outputvalue("phi110", phi110) ;
 	if (defined(stdz)) outputvalue("stdz", stdz) ; 
 	if (defined(stdx)) outputvalue("stdx", stdx) ; 
+	outputvalue("zdiv", zdiv);
+	outputvalue("scalex", scalex);
+	outputvalue("stdr", stdr);
+	outputvalue("stdGBx", stdGBx);
+	outputvalue("xydiv", xydiv);

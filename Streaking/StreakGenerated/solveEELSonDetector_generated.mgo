@@ -1,0 +1,35 @@
+[OPTIONS]
+ignoreerrors = 1;
+generations = 1000;
+
+[VARIABLES]
+
+stdGBx.min = 7e-4;
+stdGBx.max = 2.15e-3;
+
+zdiv.min = 1e4;
+zdiv.max = 5e8;
+
+scalex.min = 1.0;
+scalex.max = 2.0;
+
+stdr.min = 0;
+stdr.max = 1e-3;
+
+xydiv.min = 5;
+xydiv.max = 20;
+
+phi110.min = 0;
+phi110.max = 6.28318530718;
+phi110.cyclic = 1;
+
+Isol3.min = 800;
+Isol3.max = 1000;
+
+
+[OPTIMIZE]
+stdx.weight = 1;
+stdx.position = 2.2;
+
+nemixrms.weight = 1;
+nemixrms.position = 1.8;
