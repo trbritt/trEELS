@@ -57,15 +57,15 @@ void run_diffev() {
          * strategy 1 with the weight and crossover factors set to 0.5
          * and 0.9 respectively
          */
-        mutation_strategy_arguments mutation_arguments(0.5, 0.3);
-        //mutation_strategy_ptr mutationStrategy(
-        //    std::make_shared<mutation_strategy_1>(VARS_COUNT,
-        //        mutation_arguments));
-
-        //3 introduces a jitter when mutating between generations
+        mutation_strategy_arguments mutation_arguments(0.5, 0.9);
         mutation_strategy_ptr mutationStrategy(
             std::make_shared<mutation_strategy_1>(VARS_COUNT,
                 mutation_arguments));
+
+        //3 introduces a jitter when mutating between generations
+        //mutation_strategy_ptr mutationStrategy(
+        //    std::make_shared<mutation_strategy_1>(VARS_COUNT,
+        //        mutation_arguments));
 
         /**
          * Instantiate the differential evolution using the previously
@@ -79,7 +79,8 @@ void run_diffev() {
         /**
          * Run the optimization process
          */
-        de.run();
+        std::string filename = "C:/Users/SimulationWorkstatio/Desktop/GPT_EELS/Streaking/StreakGenerated/x64/Debug";
+        de.run(filename);
 
         /**
          * Get the best individual resulted from the optimization

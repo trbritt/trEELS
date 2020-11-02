@@ -5,9 +5,9 @@
 * optimisation. 
 */
 
-#define VARS_COUNT 70
+#define VARS_COUNT 20
 #define POPULATION_SIZE 200
-#define MAX_GEN 250
+#define MAX_GEN 100
 #define PROC_CNT 12
 
 #define _USE_MATH_DEFINES
