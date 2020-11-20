@@ -16,13 +16,13 @@ void run_diffev() {
          *  type real with x between -10, 10 and y between -100, 100.
          */
         constraints constraints{ VARS_COUNT, -1.0e8, 1.0e8 };
-        constraints[0] = std::make_shared<real_constraint>(7e-4, 9e-4);    //stdGBx
-        constraints[1] = std::make_shared<real_constraint>(1.5e7, 3e7);      //zdiv
-        constraints[2] = std::make_shared<real_constraint>(1.0, 2.0);      //scalex
-        constraints[3] = std::make_shared<real_constraint>(1e-4, 1e-3);    //stdr
-        constraints[4] = std::make_shared<real_constraint>(5, 20);         //xydiv
+        constraints[0] = std::make_shared<real_constraint>(7.9e-4, 8.1e-4);    //stdGBx originally 7 to 9
+        constraints[1] = std::make_shared<real_constraint>(1.9e7, 2.1e7);      //zdiv originally 1 to 3
+        constraints[2] = std::make_shared<real_constraint>(1.1, 1.3);      //scalex originally 1 and 2
+        constraints[3] = std::make_shared<real_constraint>(4e-4, 6e-4);    //stdr originally 1e-4 and 1e-3
+        constraints[4] = std::make_shared<real_constraint>(12, 18);         //xydiv originally 5 and 20
         constraints[5] = std::make_shared<real_constraint>(-M_PI/2, M_PI/2);     //phi110
-        constraints[6] = std::make_shared<real_constraint>(800, 1000);     //ISol3
+        constraints[6] = std::make_shared<real_constraint>(900, 950);     //ISol3 originally 800 and 1000
 
 
         /**
@@ -80,7 +80,7 @@ void run_diffev() {
          * Run the optimization process
          */
         std::string filename = "C:/Users/SimulationWorkstatio/Desktop/GPT_EELS/Streaking/StreakGenerated/x64/Debug";
-        de.run(filename);
+        de.run();
 
         /**
          * Get the best individual resulted from the optimization
